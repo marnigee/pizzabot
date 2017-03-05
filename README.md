@@ -1,5 +1,17 @@
 # Pizzabot Code Challenge
 
+## Introduction
+
+I had a great time working on this code challenge!
+
+My basic approach here was to tackle the core functionality without any unnecessary complexities.
+
+If this had been a real ticket, I would have reached out to the Product Owner to ask about how to manage the repeated `(4, 2)` house. I thought perhaps it represented an apartment building with more than one occupant with an order, so I had Pizzabot treat it as such: an additional `D` pizza drop without any moves. But it's perfectly valid to argue that it should be treated as an error and the house list needs to be cleared of potential duplicates at the start.
+
+I look forward to getting feedback on how to improve this app. (I consistently ask myself how I can make my code better, and code review is such a good vehicle for that!).
+
+<%)
+
 ## Dependencies
 
 You will need:
@@ -88,17 +100,3 @@ My version of Pizzabot does not read from STDIN but instead returns this solutio
 ```
 ENNNDEEENDSSDDWWWWSDEEENDWNDEESSD
 ```
-
-## Notes and Background
-
-I had a great time working on this code challenge!
-
-If this had been a real ticket, I would have reached out to the Product Owner to ask about how to manage the repeated `(4, 2)` house. I thought perhaps it represented an apartment building with more than one occupant with an order, so I had Pizzabot treat it as such: an additional `D` pizza drop without any moves. But it's perfectly valid to argue that it should be treated as an error and the house list needs to be cleared of potential duplicates at the start.
-
-My approach was to tackle the core functionality without unnecessary complexities.
-
-I look forward to getting feedback on how to improve this app. (I consistently ask myself how I can make my code better, and code review is such a good vehicle for that!).
-
-## My Favorite Pizza Emoticon
-
-<%)
