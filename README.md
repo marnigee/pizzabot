@@ -35,7 +35,7 @@ To test the app, run the following command:
 $ ruby test/pizzabot_test.rb
 ```
 
-You should see something similar to the following output.
+You should see something similar to the following output:
 ```bash
 $ ruby test/pizzabot_test.rb
 Run options: --seed 63331
