@@ -95,7 +95,7 @@ These were the code challenge instructions:
 >
 > 
 
-My version of Pizzabot does not read from STDIN but instead returns this solution in the `test_delivery_with_multiple_directions` test: 
+My version of Pizzabot does not read from STDIN but instead returns this solution in the `test_delivery_with_multiple_directions_and_locations` test: 
 
 ```
 ENNNDEEENDSSDDWWWWSDEEENDWNDEESSD

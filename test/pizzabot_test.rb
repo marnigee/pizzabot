@@ -44,7 +44,7 @@ class PizzabotTest < Minitest::Test
     assert_equal "W", delivery_instructions
   end
 
-  def test_delivery_with_multiple_directions
+  def test_delivery_with_multiple_directions_and_locations
     house1_start = Pizzabot::Location.new(0, 0)
     house2_ennn = Pizzabot::Location.new(1, 3)
     house3_eeen = Pizzabot::Location.new(4, 4)
