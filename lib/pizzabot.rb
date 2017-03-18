@@ -1,15 +1,20 @@
+require_relative 'pizzabot_helper'
+
 # This is a pizza robot
 class Pizzabot
+  include PizzabotHelper
   attr_reader :neighborhood, :house_start, :locations
 
   def initialize(
-      neighborhood: Neighborhood.new(0, 0, 5, 5),
+      neighborhood: PizzabotHelper::Neighborhood.new(0, 0, 5, 5),
       locations: [],
-      house_start: Location.new(0, 0)
+      house_start: PizzabotHelper::Location.new(0, 0)
   )
+    @house_start = house_start
     @locations = locations
     @neighborhood = neighborhood
-    @house_start = house_start
+    @location_sorter = ShortestRouteLocationSorter.new(locations)
+    @location_sorter.sort
   end
 
   def get_directions(from_location:, to_location:)
@@ -38,60 +43,6 @@ class Pizzabot
       delivery_instructions << 'D'
     end
     delivery_instructions
-  end
-
-  def distance(from_location, to_location)
-    horizontal_move = get_horizontal_move(
-      from_x_coord: from_location.x_coord,
-      to_x_coord: to_location.x_coord
-    )
-    vertical_move = get_vertical_move(
-      from_y_coord: from_location.y_coord,
-      to_y_coord: to_location.y_coord
-    )
-    horizontal_move.number_of_steps + vertical_move.number_of_steps
-  end
-
-  Neighborhood = Struct.new(:min_x, :min_y, :max_x, :max_y)
-  Location = Struct.new(:x_coord, :y_coord)
-  Move = Struct.new(:compass_direction, :number_of_steps)
-
-  private
-
-  def get_vertical_move(from_y_coord:, to_y_coord:)
-    move = Move.new('', 0)
-    if to_y_coord > from_y_coord
-      move = move_north(to_y_coord - from_y_coord)
-    elsif to_y_coord < from_y_coord
-      move = move_south(from_y_coord - to_y_coord)
-    end
-    move
-  end
-
-  def get_horizontal_move(from_x_coord:, to_x_coord:)
-    move = Move.new('', 0)
-    if to_x_coord > from_x_coord
-      move = move_east(to_x_coord - from_x_coord)
-    elsif to_x_coord < from_x_coord
-      move = move_west(from_x_coord - to_x_coord)
-    end
-    move
-  end
-
-  def move_north(number_of_steps)
-    Move.new('N', number_of_steps)
-  end
-
-  def move_south(number_of_steps)
-    Move.new('S', number_of_steps)
-  end
-
-  def move_east(number_of_steps)
-    Move.new('E', number_of_steps)
-  end
-
-  def move_west(number_of_steps)
-    Move.new('W', number_of_steps)
   end
 
   def add_move_delivery_instructions(move)
