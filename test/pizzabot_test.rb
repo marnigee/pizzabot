@@ -9,9 +9,12 @@ class PizzabotTest < Minitest::Test
     house2_n = Pizzabot::Location.new(0, 1)
     pizzabot = Pizzabot.new
 
-    delivery_instructions = pizzabot.get_directions(from_location: house1_start, to_location: house2_n)
+    delivery_instructions = pizzabot.get_directions(
+      from_location: house1_start,
+      to_location: house2_n
+    )
 
-    assert_equal "N", delivery_instructions
+    assert_equal 'N', delivery_instructions
   end
 
   def test_delivery_with_south_direction
@@ -19,9 +22,12 @@ class PizzabotTest < Minitest::Test
     house2_s = Pizzabot::Location.new(0, 0)
     pizzabot = Pizzabot.new
 
-    delivery_instructions = pizzabot.get_directions(from_location: house1_start, to_location: house2_s)
+    delivery_instructions = pizzabot.get_directions(
+      from_location: house1_start,
+      to_location: house2_s
+    )
 
-    assert_equal "S", delivery_instructions
+    assert_equal 'S', delivery_instructions
   end
 
   def test_delivery_with_east_direction
@@ -29,9 +35,12 @@ class PizzabotTest < Minitest::Test
     house2_e = Pizzabot::Location.new(1, 0)
     pizzabot = Pizzabot.new
 
-    delivery_instructions = pizzabot.get_directions(from_location: house1_start, to_location: house2_e)
+    delivery_instructions = pizzabot.get_directions(
+      from_location: house1_start,
+      to_location: house2_e
+    )
 
-    assert_equal "E", delivery_instructions
+    assert_equal 'E', delivery_instructions
   end
 
   def test_delivery_with_west_direction
@@ -39,37 +48,20 @@ class PizzabotTest < Minitest::Test
     house2_w = Pizzabot::Location.new(0, 0)
     pizzabot = Pizzabot.new
 
-    delivery_instructions = pizzabot.get_directions(from_location: house1_start, to_location: house2_w)
+    delivery_instructions = pizzabot.get_directions(
+      from_location: house1_start,
+      to_location: house2_w
+    )
 
-    assert_equal "W", delivery_instructions
+    assert_equal 'W', delivery_instructions
   end
 
   def test_delivery_with_multiple_directions_and_locations
-    house1_start = Pizzabot::Location.new(0, 0)
-    house2_ennn = Pizzabot::Location.new(1, 3)
-    house3_eeen = Pizzabot::Location.new(4, 4)
-    house4_ss = Pizzabot::Location.new(4, 2)
-    house5_no_move = Pizzabot::Location.new(4, 2)
-    house6_wwwws = Pizzabot::Location.new(0, 1)
-    house7_eeen = Pizzabot::Location.new(3, 2)
-    house8_wn = Pizzabot::Location.new(2, 3)
-    house9_eess = Pizzabot::Location.new(4, 1)
-
-    locations = [
-      house2_ennn,
-      house3_eeen,
-      house4_ss,
-      house5_no_move,
-      house6_wwwws,
-      house7_eeen,
-      house8_wn,
-      house9_eess
-    ]
-    pizzabot = Pizzabot.new(house_start: house1_start, locations: locations)
+    pizzabot = setup_multiple_test
 
     delivery_instructions = pizzabot.deliver
 
-    assert_equal "ENNNDEEENDSSDDWWWWSDEEENDWNDEESSD", delivery_instructions
+    assert_equal 'ENNNDEEENDSSDDWWWWSDEEENDWNDEESSD', delivery_instructions
   end
 
   def test_bad_location
@@ -79,7 +71,7 @@ class PizzabotTest < Minitest::Test
 
     bad_location_message = pizzabot.deliver
 
-    expected_message = "Sorry, bad address. No pizza for you today!"
+    expected_message = 'Sorry, bad address. No pizza for you today!'
     assert_equal expected_message, bad_location_message
   end
 
@@ -105,5 +97,38 @@ class PizzabotTest < Minitest::Test
     empty_locations = []
 
     assert_equal empty_locations, pizzabot.locations
+  end
+
+  def test_distance
+    pizzabot = Pizzabot.new
+    house1_start = Pizzabot::Location.new(0, 0)
+    house2_ennn = Pizzabot::Location.new(1, 3)
+
+    four_steps = pizzabot.distance(house1_start, house2_ennn)
+
+    assert_equal four_steps, 4
+  end
+
+  private
+
+  def setup_multiple_test
+    house1_start = Pizzabot::Location.new(0, 0)
+    Pizzabot.new(
+      house_start: house1_start,
+      locations: delivery_houses.values
+    )
+  end
+
+  def delivery_houses
+    {}.tap do |hash|
+      hash[:house2_ennn] = Pizzabot::Location.new(1, 3)
+      hash[:house3_eeen] = Pizzabot::Location.new(4, 4)
+      hash[:house4_ss] = Pizzabot::Location.new(4, 2)
+      hash[:house5_no_move] = Pizzabot::Location.new(4, 2)
+      hash[:house6_wwwws] = Pizzabot::Location.new(0, 1)
+      hash[:house7_eeen] = Pizzabot::Location.new(3, 2)
+      hash[:house8_wn] = Pizzabot::Location.new(2, 3)
+      hash[:house9_eess] = Pizzabot::Location.new(4, 1)
+    end
   end
 end

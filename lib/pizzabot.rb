@@ -1,29 +1,55 @@
+# This is a pizza robot
 class Pizzabot
   attr_reader :neighborhood, :house_start, :locations
 
-  def initialize(neighborhood: Neighborhood.new(0, 0, 5, 5), locations: [], house_start: Location.new(0, 0))
+  def initialize(
+      neighborhood: Neighborhood.new(0, 0, 5, 5),
+      locations: [],
+      house_start: Location.new(0, 0)
+  )
     @locations = locations
     @neighborhood = neighborhood
     @house_start = house_start
   end
 
   def get_directions(from_location:, to_location:)
-    delivery_instructions = ''
-    horizontal_move = get_horizontal_move(from_x_coord: from_location.x_coord, to_x_coord: to_location.x_coord)
-    delivery_instructions << add_move_delivery_instructions(horizontal_move)
-    vertical_move = get_vertical_move(from_y_coord: from_location.y_coord, to_y_coord: to_location.y_coord)
-    delivery_instructions << add_move_delivery_instructions(vertical_move)
+    horizontal_move = get_horizontal_move(
+      from_x_coord: from_location.x_coord,
+      to_x_coord: to_location.x_coord
+    )
+    vertical_move = get_vertical_move(
+      from_y_coord: from_location.y_coord,
+      to_y_coord: to_location.y_coord
+    )
+    "#{add_move_delivery_instructions(horizontal_move)}"\
+      "#{add_move_delivery_instructions(vertical_move)}"
   end
 
   def deliver
-    return "Sorry, bad address. No pizza for you today!" if bad_location?
+    return 'Sorry, bad address. No pizza for you today!' if bad_location?
+
     delivery_instructions = ''
     @locations.unshift(@house_start)
     @locations.each_cons(2) do |from_location, to_location|
-      delivery_instructions << get_directions(from_location: from_location, to_location: to_location)
+      delivery_instructions << get_directions(
+        from_location: from_location,
+        to_location: to_location
+      )
       delivery_instructions << 'D'
     end
     delivery_instructions
+  end
+
+  def distance(from_location, to_location)
+    horizontal_move = get_horizontal_move(
+      from_x_coord: from_location.x_coord,
+      to_x_coord: to_location.x_coord
+    )
+    vertical_move = get_vertical_move(
+      from_y_coord: from_location.y_coord,
+      to_y_coord: to_location.y_coord
+    )
+    horizontal_move.number_of_steps + vertical_move.number_of_steps
   end
 
   Neighborhood = Struct.new(:min_x, :min_y, :max_x, :max_y)
@@ -78,12 +104,9 @@ class Pizzabot
 
   def bad_location?
     @locations.each do |location|
-      if location.x_coord > (@neighborhood.max_y - 1)
-        return true
-      end
-      if location.y_coord > (@neighborhood.max_x - 1)
-        return true
-      end
+      return true if
+        location.x_coord > (@neighborhood.max_y - 1) ||
+        location.y_coord > (@neighborhood.max_x - 1)
     end
     false
   end
